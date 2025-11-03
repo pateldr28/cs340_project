@@ -93,9 +93,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `PatronHasClasses`;
 CREATE TABLE `PatronHasClasses` (
+  'patronClassesID' int(11) NOT NULL AUTO_INCREMENT,
   `patronID` int(11) NOT NULL,
   `classID` int(11) NOT NULL,
-  PRIMARY KEY (`patronID`,`classID`),
+  PRIMARY KEY ('patronClassesID'),
+  -- PRIMARY KEY (`patronID`,`classID`),
   KEY `fk_Patrons_has_Classes_Classes1_idx` (`classID`),
   KEY `fk_Patrons_has_Classes_Patrons1_idx` (`patronID`),
   CONSTRAINT `fk_Patrons_has_Classes_Classes1` FOREIGN KEY (`classID`) REFERENCES `Classes` (`classID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
