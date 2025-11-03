@@ -1,0 +1,46 @@
+{{!--
+Citation for the following html:
+Date: 11/02/2025
+Copied from: CS340 start app code 
+Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131
+--}}
+<h1>Class Registration</h1>
+<div class="pageDescription">
+    <p>Class Registration page (PatronHasClasses table).</p>
+</div>
+{{!-- 
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each classinfo.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+        <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each contactinfo}}
+        <tr>
+            <td>{{this.patronID}}</td>
+            <td>{{this.classId}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_person_form'>
+                <input type='hidden' name='delete_person_id' value='{{this.id}}' />
+                <input type='hidden' name='delete_person_name' value='{{this.fname}} {{this.lname}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+ --}}

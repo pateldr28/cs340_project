@@ -1,0 +1,112 @@
+{{!--
+Citation for the following html:
+Date: 11/02/2025
+Copied from: CS340 start app code 
+Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131
+--}}
+<h1>Patrons</h1>
+<div class="pageDescription">
+    <p>Patrons page.</p>
+</div>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each patrons.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each patrons}}
+        <tr>
+            <td>{{this.patronID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.age}}</td>
+            <td>{{this.gender}}</td>
+            <td>{{this.emergencyContactName}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_person_form'>
+                <input type='hidden' name='delete_person_id' value='{{this.patronID}}' />
+                <input type='hidden' name='delete_person_name' value='{{this.name}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+
+    
+</table>
+
+{{! CREATE form }}
+<h2>Create a Patron</h2>
+<form class='cuForm' id='create_person_form'>
+    <label for='create_person_fname'>Name: </label>
+    <input type='text' name='create_person_fname' id='create_person_fname' required />
+
+    <label for='create_person_age'>Age:</label>
+    <input type='number' name='create_person_age' id='create_person_age' min='0' />
+
+    <label for='create_person_homeworld'>Gender: </label>
+    <select name='create_person_homeworld' id='create_person_homeworld'>
+        <option value='NULL' selected>Select Gender</option>
+        <option value='Female' required>Female</option>
+        <option value='Male' required>Male</option>
+    </select>
+
+    <label for='create_person_homeworld'>Emergency Contact: </label>
+    <select name='create_person_homeworld' id='create_person_homeworld'>
+        <option value='NULL' selected>Select a Emergency Contact</option>
+        {{#each contacts}}
+        <option value='{{this.emergencyContactID}}' required>{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Person</h2>
+<form class='cuForm' id='update_person_form'>
+    <label for='update_person_id'>Patron to Update: </label>
+    <select name='update_person_id' id='update_person_id' required>
+        <option value='' disabled selected>Select a Patron</option>
+        {{#each patrons}}
+        <option value='{{this.patronID}}' required>
+            {{this.patronID}}
+            -
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_person_age'>Age: </label>
+    <input type='number' name='update_person_age' id='update_person_age' min='0' />
+
+
+    <label for='update_person_homeworld'>Emergency Contact: </label>
+    <select name='update_person_homeworld' id='update_person_homeworld'>
+        <option value='NULL' disabled selected>Select a Emergency Contact</option>
+        {{#each contacts}}
+        <option value='{{this.emergencyContactID}}' required>
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+   
+    <input type='submit' />
+</form>
+

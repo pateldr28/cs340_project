@@ -1,0 +1,72 @@
+{{! DELETE form }}
+            <form id='delete_patron_form'>
+                <input type='hidden' name='delete_patron_id' value='{{this.id}}' />
+                <input type='hidden' name='delete_patron_name' value='{{this.name}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Patron</h2>
+<form class='cuForm' id='create_patron_form'>
+    <label for='create_patron_name'>Name: </label>
+    <input type='text' name='create_patron_name' id='create_patron_name' required />
+
+    <label for='create_patron_gender'>Gender: </label>
+    <input type='text' name='create_patron_gender' id='create_patron_gender' />
+
+    <label for='create_patron_age'>Age:</label>
+    <input type='number' name='create_patron_age' id='create_patron_age' min='0' />
+
+    <label for='create_patron_emergency_contact'>Emergency Contact: </label>
+    <select name='create_patron_emergency_contact' id='create_patron_emergency_contact'>
+        <option value='NULL' selected>Select an Emergency Contact</option>
+        <option value='NULL'>&lt; None &gt;</option>
+        {{#each contact}}
+        <option value='{{this.id}}' required>{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Patron</h2>
+<form class='cuForm' id='update_patron_form'>
+    <label for='update_patron_id'>Patron to Update: </label>
+    <label for='update_patron_name'>Name: </label>
+    <input type='text' name='update_patron_name' id='update_patron_name' required />
+
+    <label for='update_patron_gender'>Gender: </label>
+    <input type='text' name='update_patron_gender' id='update_patron_gender' />
+
+    <label for='update_patron_age'>Age:</label>
+    <input type='number' name='update_patron_age' id='update_patron_age' min='0' />
+
+    <label for='update_patron_emergency_contact'>Emergency Contact: </label>
+    <select name='update_patron_emergency_contact' id='update_patron_emergency_contact'>
+        <option value='NULL' selected>Select an Emergency Contact</option>
+        <option value='NULL'>&lt; None &gt;</option>
+        {{#each contact}}
+        <option value='{{this.id}}' required>{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+
+<p>
+Patrons - View, Update, Delete and Create Patrons, along with names of Emergency Contacts
+Classes - View Classes
+ClassRegistrations - View PatronHasClasses with Patron names and Class names
+Reservations - View Reservations
+EmergencyContacts - View Emergency Contacts
+</p>

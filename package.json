@@ -1,0 +1,29 @@
+{
+  "name": "cs340_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "development": "npx nodemon app.js",
+    "production": "npx forever start app.js",
+    "stop_production": "npx forever stop app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pateldr28/cs340_project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pateldr28/cs340_project/issues"
+  },
+  "homepage": "https://github.com/pateldr28/cs340_project#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "forever": "^4.0.3",
+    "mysql2": "^3.15.3",
+    "nodemon": "^3.1.10"
+  }
+}
