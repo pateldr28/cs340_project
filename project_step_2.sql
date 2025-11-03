@@ -19,7 +19,7 @@ SET AUTOCOMMIT = 0;
 /*Classes: holds information of the classes available at the facility*/
 
 DROP TABLE IF EXISTS `Classes`;
-CREATE TABLE `Classes` (aF
+CREATE TABLE `Classes` (
   `classID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `level` int(11) NOT NULL,
