@@ -8,3 +8,44 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 <div class="pageDescription">
     <p>Reservations page.</p>
 </div>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each reservations.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each reservations}}
+        <tr>
+            <td>{{this.reservationID}}</td>
+            <td>{{this.patronName}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.duration}}</td>
+            <td>${{this.price}}</td>
+            <td>{{this.comments}}</td>
+         {{! DELETE form }}
+            <form id='delete_person_form'>
+                <input type='hidden' name='delete_person_id' value='{{this.reservationID}}' />
+                <input type='hidden' name='delete_person_name' value='{{this.price}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+
+    
+</table>

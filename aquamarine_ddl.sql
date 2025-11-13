@@ -109,7 +109,7 @@ CREATE TABLE `PatronHasClasses` (
 --
 
 LOCK TABLES `PatronHasClasses` WRITE;
-INSERT INTO `PatronHasClasses`(`patronID`, `classID`) VALUES (1,1),(1,2),(1,4),(2,1),(2,3),(3,1),(3,2),(4,1),(4,3),(5,2),(5,3),(6,2),(6,4),(7,3),(7,4),(8,4);
+INSERT INTO `PatronHasClasses`(`patronClassesID`,`patronID`, `classID`) VALUES (1,1,1),(2,1,2),(3,1,4),(4,2,1),(5,2,3),(6,3,1),(7,3,2),(8,4,1),(9,4,3),(10,5,2),(11,5,3),(12,6,2),(13,6,4),(14,7,3),(15,7,4),(16,8,4);
 UNLOCK TABLES;
 
 --
@@ -168,4 +168,3 @@ UNLOCK TABLES;
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
-

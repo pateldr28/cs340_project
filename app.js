@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const PORT = 1040;
+const PORT = 1041;
 
 // Database
 const db = require('./database/db-connector');
@@ -81,7 +81,13 @@ app.get('/patrons', async function (req, res) {
 
 app.get('/reservations', async function (req, res) {
     try {
-        res.render('reservations'); // Render the reservations.hbs file
+        const query1 = "SELECT Reservations.reservationID, Patrons.name AS patronName, Reservations.date, Reservations.duration, Reservations.price, Reservations.comments\
+        FROM Reservations\
+        JOIN Patrons ON Reservations.patronID = Patrons.patronID;";
+        const [reservations] = await db.query(query1);
+        //const [patrons] = await db.query(query2);
+        res.render('reservations', {reservations: reservations});
+        //res.render('reservations'); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -90,9 +96,16 @@ app.get('/reservations', async function (req, res) {
 });
 
 
+
 app.get('/classes', async function (req, res) {
     try {
-        res.render('classes'); // Render the reservations.hbs file
+        const query1 = "SELECT Classes.classID, Classes.name,Classes.level, Classes.price, Classes.weekDuration, Instructors.name AS 'instructorName'\
+        FROM Classes\
+        JOIN Instructors ON Instructors.instructorID = Classes.instructorID;";
+        const [classes] = await db.query(query1);
+        //const [patrons] = await db.query(query2);
+        res.render('classes', {classes: classes});
+        //res.render('classes'); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -102,7 +115,10 @@ app.get('/classes', async function (req, res) {
 
 app.get('/emergency-contacts', async function (req, res) {
     try {
-        res.render('emergency-contacts'); // Render the reservations.hbs file
+        const query1 = "SELECT EmergencyContacts.emergencyContactID, EmergencyContacts.name,EmergencyContacts.email, EmergencyContacts.phoneNumber\
+        FROM EmergencyContacts;";
+        const [contacts] = await db.query(query1);
+        res.render('emergency-contacts', {contacts: contacts}); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -112,7 +128,10 @@ app.get('/emergency-contacts', async function (req, res) {
 
 app.get('/instructors', async function (req, res) {
     try {
-        res.render('instructors'); // Render the reservations.hbs file
+        const query1 = "SELECT Instructors.instructorID, Instructors.name,Instructors.email, Instructors.phoneNumber\
+        FROM Instructors;";
+        const [instructors] = await db.query(query1);
+        res.render('instructors', {instructors:instructors}); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -122,11 +141,15 @@ app.get('/instructors', async function (req, res) {
 
 app.get('/class-registration', async function (req, res) {
     try {
-        const query1 = "SELECT PatronHasClasses.patronID, Patrons.name,PatronHasClasses.classID, Classes.name\
+        const query1 = "SELECT PatronHasClasses.patronClassesID AS registrationID, PatronHasClasses.patronID, Patrons.name AS patronName, PatronHasClasses.classID, Classes.name AS className\
                 FROM PatronHasClasses JOIN Patrons ON Patrons.patronID = PatronHasClasses.patronID\
-                JOIN Classes ON Classes.classID = PatronHasClasses.classID;"
-        const [classinfo] = await db.query(query1)
-        res.render('class-registration', {classinfo: classinfo}); // Render the reservations.hbs file
+                JOIN Classes ON Classes.classID = PatronHasClasses.classID ORDER BY registrationID ASC;";
+        const query2 = "SELECT Classes.classID, Classes.name FROM Classes;";
+        const query3 = "SELECT Patrons.patronID, Patrons.name FROM Patrons;";
+        const [classinfo] = await db.query(query1);
+        const [classes] = await  db.query(query2);
+        const[patrons] =  await db.query(query3);
+        res.render('class-registration', {classinfo: classinfo, classes: classes, patrons: patrons}); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser

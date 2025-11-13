@@ -4,6 +4,25 @@ Date: 11/02/2025
 Copied from: CS340 start app code 
 Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131
 */
+/* body{
+    background-color: #b5e1ea;
+    font-family: Arial, Helvetica, sans-serif;
+} */
+
+body {
+  /* background: 
+    linear-gradient(to bottom right, #4f46e5, #9333ea),
+    url('/images/jellyfish_background.png');
+  background-size: cover;
+  background-position: center;
+  color: white; */
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background-color: #b5e1ea;
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+}
+
 h1, h2 {
     margin-left: 16px;
 }
@@ -14,16 +33,16 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #1a07ac;
     padding: 12px;
     text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #52b2c8;
 }
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #c9e2f8;
 }
 .cuForm { 
     margin-left: 32px;
@@ -34,7 +53,7 @@ input, select {
 }
 
 nav {
-    background-color: #cecece;  
+    background-color: #52b2c8;  
     padding: 16px;
 }
 
@@ -44,4 +63,18 @@ a {
 
 .pageDescription {
     margin-left: 32px;
+}
+
+button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #4338ca;
 }

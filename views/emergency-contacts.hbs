@@ -8,3 +8,44 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 <div class="pageDescription">
     <p>Emergency Contacts page.</p>
 </div>
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each contacts.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each contacts}}
+        <tr>
+            <td>{{this.emergencyContactID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phoneNumber}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_person_form'>
+                <input type='hidden' name='delete_person_id' value='{{this.emergencyContactID}}' />
+                <input type='hidden' name='delete_person_name' value='{{this.name}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+
+    
+</table>
+
+
