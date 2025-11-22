@@ -223,18 +223,18 @@ app.post('/patrons/update', async function (req, res) {
 
         // Create and execute our query
         // Using parameterized queries (Prevents SQL injection attacks)
-        const query1 = 'CALL sp_UpdatePatron(?, ?, ?);';
-        const query2 = 'SELECT name FROM Patrons WHERE id = ?;';
+        const query1 = `CALL sp_UpdatePatron(?, ?, ?);`;
+        const query2 = `SELECT name FROM Patrons WHERE patronID = ?;`;
         await db.query(query1, [
             data.update_patron_id,
             data.update_patron_age,
             data.update_patron_emergencycontact,
         ]);
-        const [[rows]] = await db.query(query2, [data.update_person_id]);
+        // const [rows] = await db.query(query2, [data.update_patron_id]);
 
-        console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
-            `Name: ${rows.name}`
-        );
+        // console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
+        //     `Name: ${rows.name}`
+        // );
 
         // Redirect the user to the updated webpage data
         res.redirect('/patrons');
@@ -269,3 +269,29 @@ app.post('/reset', async function (req, res) {
     }
 });
  
+
+// DELETE ROUTES
+app.post('/patrons/delete', async function (req, res) {
+    try {
+        // Parse frontend form information
+        let data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeletePatron(?);`;
+        await db.query(query1, [data.delete_patron_id]);
+
+        console.log(`DELETE patron. ID: ${data.delete_patron_id} ` +
+            `Name: ${data.delete_patron_name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/patrons');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});

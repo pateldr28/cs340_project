@@ -79,7 +79,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 
 {{! UPDATE form }}
 <h2>Update Patron Info</h2>
-<form class='cuForm' id='update_patron_form'>
+
+<form class='cuForm' id='update_patron_form' method='POST' action='/patrons/update'>
     <label for='update_patron_id'>Patron to Update: </label>
     <select name='update_patron_id' id='update_patron_id' required>
         <option value='' disabled selected>Select a Patron</option>
