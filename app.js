@@ -166,3 +166,68 @@ app.listen(PORT, function () {
             '; press Ctrl-C to terminate.'
     );
 });
+
+
+
+
+// CREATE ROUTES
+app.post('/patrons/create', async function (req, res) {
+    try {
+        // Parse frontend form information
+        let data = req.body;
+
+        // Cleanse data - If the homeworld or age aren't numbers, make them NULL.
+        if (isNaN(parseInt(data.create_patron_age)))
+            data.create_patron_age = null;
+        if (isNaN(parseInt(data.create_patron_emergencycontact)))
+            data.create_patron_emergencycontact = null;
+
+        // Create and execute our queries
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_CreatePatron(?, ?, ?, ?, @new_id);`;
+
+        // Store ID of last inserted row
+        const [[[rows]]] = await db.query(query1, [
+            data.create_patron_name,
+            data.create_patron_age,
+            data.create_patron_gender,
+            data.create_patron_emergencycontact,
+        ]);
+
+        console.log(`CREATE Patrons. ID: ${rows.new_id}  +
+            Name: ${data.create_patron_name}`
+        );
+
+        // Redirect the user to the updated webpage
+        res.redirect('/patrons');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+// Citation for the following function:
+// Date: 11/14/2025
+// Adapted from Github Copilot:
+// Prompt used: "how do we implement a reset sp_pl in app.js and html, assuming our procedure is already written", with a follow up prompt of "how do you generalize the app.js so its not specific to patrons page and resets the whole database and all the other tables on different pages"
+// Source URL: https://github.com/copilot/c/1dacc04b-b3b3-41d2-891b-b959387c78dd 
+
+// GLOBAL RESET route (resets the entire database)
+app.post('/reset', async function (req, res) {
+    try {
+        // Call the stored procedure to reset all tables
+        const query = `CALL sp_load_aquamarinedb()`;  // Replace with your actual SP name (e.g., sp_PL if that's it)
+        await db.query(query);
+
+        console.log('Entire database reset successfully.');
+        // Redirect to the home page or a default page (e.g., patrons as the main one)
+        res.redirect('/patrons');  // Or '/home' if you have one
+    } catch (error) {
+        console.error('Error resetting database:', error);
+        res.status(500).send('An error occurred while resetting the database.');
+    }
+});
+ 

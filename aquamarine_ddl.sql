@@ -1,15 +1,7 @@
-/*
-Group Members: Anvesha Kumar and Dristi Patel
-Group Number: 9
-Title: Aquamarine Swim Center 
-Project Step 3
-*/
-
--- MariaDB dump 10.19  Distrib 10.5.27-MariaDB, for Linux (x86_64)
---
--- Host: classmysql.engr.oregonstate.edu    Database: cs340_pateldr
--- ------------------------------------------------------
--- Server version	10.11.14-MariaDB-log
+DROP PROCEDURE IF EXISTS sp_load_aquamarinedb;
+DELIMITER //
+CREATE PROCEDURE sp_load_aquamarinedb()
+BEGIN
 
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
@@ -36,9 +28,9 @@ CREATE TABLE `Classes` (
 -- Dumping data for table `Classes`
 --
 
-LOCK TABLES `Classes` WRITE;
+-- LOCK TABLES `Classes` WRITE;
 INSERT INTO `Classes` VALUES (1,'Tadpole Splash',1,105,6,1),(2,'Beginner Freestyle',2,125,8,2),(3,'Intermediate Strokes',3,145,4,2),(4,'Advanced Endurance',4,130,7,3);
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `EmergencyContacts`
@@ -59,9 +51,9 @@ CREATE TABLE `EmergencyContacts` (
 -- Dumping data for table `EmergencyContacts`
 --
 
-LOCK TABLES `EmergencyContacts` WRITE;
+-- LOCK TABLES `EmergencyContacts` WRITE;
 INSERT INTO `EmergencyContacts` VALUES (1,'Jane Park','jane.park@email.com','541-555-2001'),(2,'Tom Green','tom.green@email.com','541-555-2002'),(3,'Linda Bell','linda.bell@email.com','541-555-2003'),(4,'David Kim','david.kim@email.com','541-555-2004'),(5,'Mark Jones','mark.jones@email.com','541-555-2005'),(6,'Sam Ngo','sam.ngo@email.com','541-555-2006'),(7,'Sofia Cruz','sofia.cruz@email.com','541-555-2007');
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `Instructors`
@@ -82,9 +74,9 @@ CREATE TABLE `Instructors` (
 -- Dumping data for table `Instructors`
 --
 
-LOCK TABLES `Instructors` WRITE;
+-- LOCK TABLES `Instructors` WRITE;
 INSERT INTO `Instructors` VALUES (1,'Alex Chen','541-555-1001','alex.chen@swim.com	'),(2,'Ben Davis','541-555-1002','ben.davis@swim.com	'),(3,'Chris Lee','541-555-1003','chris.lee@swim.com	'),(4,'Dana Scott','541-555-1004','dana.scott@swim.com	');
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `PatronHasClasses`
@@ -108,9 +100,9 @@ CREATE TABLE `PatronHasClasses` (
 -- Dumping data for table `PatronHasClasses`
 --
 
-LOCK TABLES `PatronHasClasses` WRITE;
+-- LOCK TABLES `PatronHasClasses` WRITE;
 INSERT INTO `PatronHasClasses`(`patronClassesID`,`patronID`, `classID`) VALUES (1,1,1),(2,1,2),(3,1,4),(4,2,1),(5,2,3),(6,3,1),(7,3,2),(8,4,1),(9,4,3),(10,5,2),(11,5,3),(12,6,2),(13,6,4),(14,7,3),(15,7,4),(16,8,4);
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `Patrons`
@@ -120,7 +112,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `Patrons`;
 CREATE TABLE `Patrons` (
   `patronID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `age` int(11) NOT NULL,
   `gender` varchar(45) NOT NULL,
   `emergencyContactID` int(11) NOT NULL,
@@ -134,9 +126,9 @@ CREATE TABLE `Patrons` (
 -- Dumping data for table `Patrons`
 --
 
-LOCK TABLES `Patrons` WRITE;
+-- LOCK TABLES `Patrons` WRITE;
 INSERT INTO `Patrons` VALUES (1,'Eliza Park',10,'Female',1),(2,'Frank Green',8,'Male',2),(3,'Gia Harris',9,'Female',3),(4,'Henry Kim',12,'Male',4),(5,'Ira Jones',15,'Male',5),(6,'Jasmine Lim',11,'Female',3),(7,'Kelly Ngo',14,'Female',6),(8,'Leo Cruz',16,'Male',7);
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `Reservations`
@@ -161,10 +153,15 @@ CREATE TABLE `Reservations` (
 -- Dumping data for table `Reservations`
 --
 
-LOCK TABLES `Reservations` WRITE;
+-- LOCK TABLES `Reservations` WRITE;
 INSERT INTO `Reservations` VALUES (1,2.50,'2025-11-01 18:00:00',1,350,'Birthday Party '),(2,0.75,'2025-11-03 10:00:00',4,225,'Friend hangout'),(3,4.00,'2025-11-05 14:30:00',7,399,'Pool party'),(4,1.5,'2025-11-08 19:00:00',5,280,'Swim competition ');
-UNLOCK TABLES;
+-- UNLOCK TABLES;
 
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
+
+END //
+
+DELIMITER ;
+

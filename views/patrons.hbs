@@ -52,22 +52,22 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 
 {{! CREATE form }}
 <h2>Add Patron</h2>
-<form class='cuForm' id='create_person_form'>
-    <label for='create_person_fname'>Name: </label>
-    <input type='text' name='create_person_fname' id='create_person_fname' required />
+<form class='cuForm' id='create_patron_form' method='POST' action='/patrons/create'>
+    <label for='create_patron_name'>Name: </label>
+    <input type='text' name='create_patron_name' id='create_patron_name' required />
 
-    <label for='create_person_age'>Age:</label>
-    <input type='number' name='create_person_age' id='create_person_age' min='0' />
+    <label for='create_patron_age'>Age:</label>
+    <input type='number' name='create_patron_age' id='create_patron_age' min='0' />
 
-    <label for='create_person_homeworld'>Gender: </label>
-    <select name='create_person_homeworld' id='create_person_homeworld'>
+    <label for='create_patron_gender'>Gender: </label>
+    <select name='create_patron_gender' id='create_patron_gender'>
         <option value='NULL' selected>Select Gender</option>
         <option value='Female' required>Female</option>
         <option value='Male' required>Male</option>
     </select>
 
-    <label for='create_person_homeworld'>Emergency Contact: </label>
-    <select name='create_person_homeworld' id='create_person_homeworld'>
+    <label for='create_patron_emergencycontact'>Emergency Contact: </label>
+    <select name='create_patron_emergencycontact' id='create_patron_emergencycontact'>
         <option value='NULL' selected>Select a Emergency Contact</option>
         {{#each contacts}}
         <option value='{{this.emergencyContactID}}' required>{{this.name}}</option>

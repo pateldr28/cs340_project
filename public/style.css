@@ -4,18 +4,8 @@ Date: 11/02/2025
 Copied from: CS340 start app code 
 Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131
 */
-/* body{
-    background-color: #b5e1ea;
-    font-family: Arial, Helvetica, sans-serif;
-} */
 
 body {
-  /* background: 
-    linear-gradient(to bottom right, #4f46e5, #9333ea),
-    url('/images/jellyfish_background.png');
-  background-size: cover;
-  background-position: center;
-  color: white; */
   font-family: 'Segoe UI', Tahoma, sans-serif;
   background-color: #b5e1ea;
   color: #333;
