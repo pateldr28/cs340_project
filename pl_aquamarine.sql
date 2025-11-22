@@ -30,3 +30,19 @@ BEGIN
         -- SELECT @new_id AS 'New Person ID';
 END //
 DELIMITER ;
+
+-- #############################
+-- UPDATE aquamarine
+-- #############################
+DROP PROCEDURE IF EXISTS sp_UpdatePerson;
+
+DELIMITER //
+CREATE PROCEDURE sp_UpdatePatron(
+    IN patronID INT, 
+    IN age INT, 
+    IN emergencyContactID INT)
+
+BEGIN
+    UPDATE Patrons SET Patrons.age = age, Patrons.emergencyContactID = emergencyContactID WHERE Patrons.patronID = patronID; 
+END //
+DELIMITER ;
