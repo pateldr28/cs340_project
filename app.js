@@ -209,6 +209,44 @@ app.post('/patrons/create', async function (req, res) {
     }
 });
 
+// UPDATE ROUTES
+app.post('/patrons/update', async function (req, res) {
+    try {
+        // Parse frontend form information
+        const data = req.body;
+
+        // Cleanse data - If the homeworld or age aren't numbers, make them NULL.
+        if (isNaN(parseInt(data.update_patron_age)))
+            data.update_patron_age = null;
+       /*  if (isNaN(parseInt(data.update_patr)))
+            data.update_person_age = null; */
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = 'CALL sp_UpdatePatron(?, ?, ?);';
+        const query2 = 'SELECT name FROM Patrons WHERE id = ?;';
+        await db.query(query1, [
+            data.update_patron_id,
+            data.update_patron_age,
+            data.update_patron_emergencycontact,
+        ]);
+        const [[rows]] = await db.query(query2, [data.update_person_id]);
+
+        console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
+            `Name: ${rows.name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/patrons');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
 // Citation for the following function:
 // Date: 11/14/2025
 // Adapted from Github Copilot:
