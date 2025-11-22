@@ -34,7 +34,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
             <td>{{this.emergencyContactName}}</td>
 
             {{! DELETE form }}
-            <form id='delete_person_form'>
+            <form id='delete_patron_form' method="POST" action='/patrons/delete'>
                 <input type='hidden' name='delete_patron_id' value='{{this.patronID}}' />
                 <input type='hidden' name='delete_patron_name' value='{{this.name}}' />
                 <td>

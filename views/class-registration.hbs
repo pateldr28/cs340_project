@@ -35,9 +35,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
             
 
             {{! DELETE form }}
-            <form id='delete_person_form'>
-                <input type='hidden' name='delete_person_id' value='{{this.registrationID}}' />
-                {{!-- <input type='hidden' name='delete_person_name' value='{{this.fname}} {{this.lname}}' /> --}}
+            <form id='delete_registration_form' method="POST" action="/class-registration/delete">
+                <input type='hidden' name='delete_registration_id' value='{{this.registrationID}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -51,9 +50,9 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 
 {{! UPDATE form }}
 <h2>Update Registration Info</h2>
-<form class='cuForm' id='update_person_form'>
-    <label for='update_person_id'>Registration ID Update: </label>
-    <select name='update_person_id' id='update_person_id' required>
+<form class='cuForm' id='update_registration_id' method="POST" action="/class-registration/update">
+    <label for='update_registration_id'>Registration ID Update: </label>
+    <select name='update_registration_id' id='update_registration_id' required>
         <option value='' disabled selected>Select a Registration ID</option>
         {{#each classinfo}}
         <option value='{{this.registrationID}}' required>
@@ -62,8 +61,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
         {{/each}}
     </select>
 
-    <label for='update_person_id'>Patron Info to Update: </label>
-    <select name='update_person_id' id='update_person_id' required>
+    <label for='update_patron_id'>Patron Info to Update: </label>
+    <select name='update_patron_id' id='update_patron_id' required>
         <option value='' disabled selected>Select a Patron</option>
         {{#each patrons}}
         <option value='{{this.patronID}}' required>
@@ -74,8 +73,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
         {{/each}}
     </select>
 
-    <label for='update_person_id'>Class Info to Update: </label>
-    <select name='update_person_id' id='update_person_id' required>
+    <label for='update_class_id'>Class Info to Update: </label>
+    <select name='update_class_id' id='update_class_id' required>
         <option value='' disabled selected>Select a Class</option>
         {{#each classes}}
         <option value='{{this.classID}}' required>
