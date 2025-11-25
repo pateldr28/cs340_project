@@ -45,6 +45,9 @@ input, select {
 nav {
     background-color: #52b2c8;  
     padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 a {
@@ -67,4 +70,13 @@ button {
 
 button:hover {
   background-color: #4338ca;
+}
+
+.databaseTitle{
+   text-align: center; 
+   color:#4f46e5;
+}
+
+.resetbutton{
+    margin-left: auto;
 }

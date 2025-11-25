@@ -20,14 +20,8 @@ BEGIN
     INSERT INTO Patrons (name, age, gender, emergencyContactID) 
     VALUES (name, age, gender, emergencyContactID);
 
-    -- Store the ID of the last inserted row
     SELECT LAST_INSERT_ID() into p_id;
-    -- Display the ID of the last inserted person.
     SELECT LAST_INSERT_ID() AS 'new_id';
-
-    -- Example of how to get the ID of the newly created person:
-        -- CALL sp_CreatePerson('Theresa', 'Evans', 2, 48, @new_id);
-        -- SELECT @new_id AS 'New Person ID';
 END //
 DELIMITER ;
 
@@ -47,39 +41,74 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
 -- #############################
 -- DELETE patron
 -- #############################
-DROP PROCEDURE IF EXISTS sp_DeletePerson;
+DROP PROCEDURE IF EXISTS sp_DeletePatron;
 
 DELIMITER //
-CREATE PROCEDURE sp_DeletePatron(IN p_id INT)
+CREATE PROCEDURE sp_DeletePatron(IN patronID INT)
 BEGIN
     DECLARE error_message VARCHAR(255); 
 
-    -- error handling
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        -- Roll back the transaction on any error
         ROLLBACK;
-        -- Propogate the custom error message to the caller
         RESIGNAL;
     END;
 
     START TRANSACTION;
-        -- Deleting corresponding rows from both bsg_people table and 
-        --      intersection table to prevent a data anamoly
-        -- This can also be accomplished by using an 'ON DELETE CASCADE' constraint
-        --      inside the bsg_cert_people table.
-        DELETE FROM Patrons WHERE patronID = p_id;
-        -- DELETE FROM bsg_people WHERE id = p_id;
-
-        -- ROW_COUNT() returns the number of rows affected by the preceding statement.
+        DELETE FROM Patrons WHERE Patrons.patronID = patronID;
         IF ROW_COUNT() = 0 THEN
-            set error_message = CONCAT('No matching record found in bsg_people for id: ', p_id);
-            -- Trigger custom error, invoke EXIT HANDLER
+            set error_message = CONCAT('No matching record found in bsg_people for id: ', patronID);
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
+        END IF;
+
+    COMMIT;
+
+END //
+DELIMITER ;
+
+
+-- #############################
+-- UPDATE class registration 
+-- #############################
+DROP PROCEDURE IF EXISTS sp_UpdateClassRegistration;
+
+DELIMITER //
+CREATE PROCEDURE sp_UpdateClassRegistration(
+    IN registrationID INT, 
+    IN patronID INT, 
+    IN classID INT)
+
+BEGIN
+    UPDATE PatronHasClasses 
+        SET PatronHasClasses.patronID = patronID, PatronHasClasses.classID = classID 
+        WHERE PatronHasClasses.patronClassesID = registrationID; 
+END //
+DELIMITER ;
+
+-- #############################
+-- DELETE registration
+-- #############################
+DROP PROCEDURE IF EXISTS sp_DeleteRegistration;
+
+DELIMITER //
+CREATE PROCEDURE sp_DeleteRegistration(IN registrationID INT)
+BEGIN
+    DECLARE error_message VARCHAR(255); 
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM PatronHasClasses WHERE patronClassesID = registrationID;
+
+        IF ROW_COUNT() = 0 THEN
+            set error_message = CONCAT('No matching record found in bsg_people for id: ', registrationID);
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
         END IF;
 

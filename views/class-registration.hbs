@@ -12,7 +12,6 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 {{! READ table }}
 <table>
     <thead>
-        {{! For the table header row, we print the DB attribute names }}
         <tr>
             {{#each classinfo.[0]}}
             <th>
@@ -23,7 +22,6 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
         </tr>
     </thead>
         <tbody>
-        {{! For each row, print the id, fname, lname, homeworld and age }}
         {{#each classinfo}}
         <tr>
             <td>{{this.registrationID}}</td>
@@ -31,8 +29,6 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
             <td>{{this.patronName}}</td>
             <td>{{this.classID}}</td>
             <td>{{this.className}}</td>
-
-            
 
             {{! DELETE form }}
             <form id='delete_registration_form' method="POST" action="/class-registration/delete">

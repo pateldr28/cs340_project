@@ -20,7 +20,6 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
                 {{@key}}
             </th>
             {{/each}}
-            <th></th>
         </tr>
     </thead>
 
@@ -33,16 +32,6 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
             <td>{{this.email}}</td>
             <td>{{this.phoneNumber}}</td>
 
-            {{! DELETE form }}
-            <form id='delete_person_form'>
-                <input type='hidden' name='delete_person_id' value='{{this.instructorID}}' />
-                <input type='hidden' name='delete_person_name' value='{{this.name}}' />
-                <td>
-                    <button type='submit'>
-                        Delete
-                    </button>
-                </td>
-            </form>
         </tr>
         {{/each}}
     </tbody>

@@ -39,6 +39,7 @@ app.get('/', async function (req, res) {
     }
 });
 
+/*
 app.get('/bsg-people', async function (req, res) {
     try {
         // Create and execute our queries
@@ -61,7 +62,7 @@ app.get('/bsg-people', async function (req, res) {
         );
     }
 });
-
+*/
 app.get('/patrons', async function (req, res) {
     try {
         const query1 = "SELECT Patrons.patronID, Patrons.name,Patrons.age, Patrons.gender, \
@@ -210,6 +211,8 @@ app.post('/patrons/create', async function (req, res) {
 });
 
 // UPDATE ROUTES
+
+// Update Patron
 app.post('/patrons/update', async function (req, res) {
     try {
         // Parse frontend form information
@@ -218,8 +221,6 @@ app.post('/patrons/update', async function (req, res) {
         // Cleanse data - If the homeworld or age aren't numbers, make them NULL.
         if (isNaN(parseInt(data.update_patron_age)))
             data.update_patron_age = null;
-       /*  if (isNaN(parseInt(data.update_patr)))
-            data.update_person_age = null; */
 
         // Create and execute our query
         // Using parameterized queries (Prevents SQL injection attacks)
@@ -247,6 +248,38 @@ app.post('/patrons/update', async function (req, res) {
     }
 });
 
+// Update Registration 
+app.post('/class-registration/update', async function (req, res) {
+    try {
+        // Parse frontend form information
+        const data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_UpdateClassRegistration(?, ?, ?);`;
+        // const query2 = `SELECT name FROM Patrons WHERE patronID = ?;`;
+        await db.query(query1, [
+            data.update_registration_id,
+            data.update_patron_id,
+            data.update_class_id,
+        ]);
+        const [rows] = await db.query(query2, [data.update_patron_id]);
+
+        console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
+             `Name: ${rows.name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/class-registration');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
 // Citation for the following function:
 // Date: 11/14/2025
 // Adapted from Github Copilot:
@@ -257,12 +290,11 @@ app.post('/patrons/update', async function (req, res) {
 app.post('/reset', async function (req, res) {
     try {
         // Call the stored procedure to reset all tables
-        const query = `CALL sp_load_aquamarinedb()`;  // Replace with your actual SP name (e.g., sp_PL if that's it)
+        const query = `CALL sp_load_aquamarinedb()`;  
         await db.query(query);
 
         console.log('Entire database reset successfully.');
-        // Redirect to the home page or a default page (e.g., patrons as the main one)
-        res.redirect('/patrons');  // Or '/home' if you have one
+        res.redirect('/');  
     } catch (error) {
         console.error('Error resetting database:', error);
         res.status(500).send('An error occurred while resetting the database.');
@@ -287,6 +319,31 @@ app.post('/patrons/delete', async function (req, res) {
 
         // Redirect the user to the updated webpage data
         res.redirect('/patrons');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+
+app.post('/class-registration/delete', async function (req, res) {
+    try {
+        // Parse frontend form information
+        let data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeleteRegistration(?);`;
+        await db.query(query1, [data.delete_registration_id]);
+
+        console.log(`DELETE registration. ID: ${data.delete_registration_id} `
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/class-registration');
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser

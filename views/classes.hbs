@@ -12,19 +12,16 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 {{! READ table }}
 <table>
     <thead>
-        {{! For the table header row, we print the DB attribute names }}
         <tr>
             {{#each classes.[0]}}
             <th>
                 {{@key}}
             </th>
             {{/each}}
-            <th></th>
         </tr>
     </thead>
 
     <tbody>
-        {{! For each row, print the id, fname, lname, homeworld and age }}
         {{#each classes}}
         <tr>
             <td>{{this.classID}}</td>
@@ -33,16 +30,6 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
             <td>${{this.price}}</td>
             <td>{{this.weekDuration}}</td>
             <td>{{this.instructorName}}</td>
-         {{! DELETE form }}
-            <form id='delete_person_form'>
-                <input type='hidden' name='delete_person_id' value='{{this.classID}}' />
-                <input type='hidden' name='delete_person_name' value='{{this.name}}' />
-                <td>
-                    <button type='submit'>
-                        Delete
-                    </button>
-                </td>
-            </form>
         </tr>
         {{/each}}
     </tbody>
