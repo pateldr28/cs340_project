@@ -6,7 +6,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 */
 
 // ########################################
-// ########## SETUP
+// SETUP
+// ########################################
 
 // Express
 const express = require('express');
@@ -26,9 +27,13 @@ app.engine('.hbs', engine({ extname: '.hbs' })); // Create instance of handlebar
 app.set('view engine', '.hbs'); // Use handlebars engine for *.hbs files.
 
 // ########################################
-// ########## ROUTE HANDLERS
+// ROUTE HANDLERS
+// ########################################
+
 
 // READ ROUTES
+
+//Route to home page 
 app.get('/', async function (req, res) {
     try {
         res.render('home'); // Render the home.hbs file
@@ -39,30 +44,7 @@ app.get('/', async function (req, res) {
     }
 });
 
-/*
-app.get('/bsg-people', async function (req, res) {
-    try {
-        // Create and execute our queries
-        // In query1, we use a JOIN clause to display the names of the homeworlds
-        const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
-            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
-            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
-        const query2 = 'SELECT * FROM bsg_planets;';
-        const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);
-
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
-        res.render('bsg-people', { people: people, homeworlds: homeworlds });
-    } catch (error) {
-        console.error('Error executing queries:', error);
-        // Send a generic error message to the browser
-        res.status(500).send(
-            'An error occurred while executing the database queries.'
-        );
-    }
-});
-*/
+//Route to patrons table
 app.get('/patrons', async function (req, res) {
     try {
         const query1 = "SELECT Patrons.patronID, Patrons.name,Patrons.age, Patrons.gender, \
@@ -79,16 +61,15 @@ app.get('/patrons', async function (req, res) {
     }
 });
 
-
+// Route to reservations page 
 app.get('/reservations', async function (req, res) {
     try {
+        // Display Reservations table 
         const query1 = "SELECT Reservations.reservationID, Patrons.name AS patronName, Reservations.date, Reservations.duration, Reservations.price, Reservations.comments\
         FROM Reservations\
         JOIN Patrons ON Reservations.patronID = Patrons.patronID;";
         const [reservations] = await db.query(query1);
-        //const [patrons] = await db.query(query2);
         res.render('reservations', {reservations: reservations});
-        //res.render('reservations'); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -97,16 +78,15 @@ app.get('/reservations', async function (req, res) {
 });
 
 
-
+// Route to classes page 
 app.get('/classes', async function (req, res) {
     try {
+        // Display Classes table 
         const query1 = "SELECT Classes.classID, Classes.name,Classes.level, Classes.price, Classes.weekDuration, Instructors.name AS 'instructorName'\
         FROM Classes\
         JOIN Instructors ON Instructors.instructorID = Classes.instructorID;";
         const [classes] = await db.query(query1);
-        //const [patrons] = await db.query(query2);
         res.render('classes', {classes: classes});
-        //res.render('classes'); // Render the reservations.hbs file
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -114,8 +94,10 @@ app.get('/classes', async function (req, res) {
     }
 });
 
+//Route to emergency contacts page 
 app.get('/emergency-contacts', async function (req, res) {
     try {
+        // Display EmergencyContacts table 
         const query1 = "SELECT EmergencyContacts.emergencyContactID, EmergencyContacts.name,EmergencyContacts.email, EmergencyContacts.phoneNumber\
         FROM EmergencyContacts;";
         const [contacts] = await db.query(query1);
@@ -127,8 +109,10 @@ app.get('/emergency-contacts', async function (req, res) {
     }
 });
 
+// Route to instructors page 
 app.get('/instructors', async function (req, res) {
     try {
+        // Display Instructors table 
         const query1 = "SELECT Instructors.instructorID, Instructors.name,Instructors.email, Instructors.phoneNumber\
         FROM Instructors;";
         const [instructors] = await db.query(query1);
@@ -140,8 +124,10 @@ app.get('/instructors', async function (req, res) {
     }
 });
 
+// Route to class registration (aka PatronHasClasses) page 
 app.get('/class-registration', async function (req, res) {
     try {
+        // Display PatronsHasClasses table 
         const query1 = "SELECT PatronHasClasses.patronClassesID AS registrationID, PatronHasClasses.patronID, Patrons.name AS patronName, PatronHasClasses.classID, Classes.name AS className\
                 FROM PatronHasClasses JOIN Patrons ON Patrons.patronID = PatronHasClasses.patronID\
                 JOIN Classes ON Classes.classID = PatronHasClasses.classID ORDER BY registrationID ASC;";
@@ -157,21 +143,11 @@ app.get('/class-registration', async function (req, res) {
         res.status(500).send('An error occurred while rendering the page.');
     }
 });
-// ########################################
-// ########## LISTENER
-
-app.listen(PORT, function () {
-    console.log(
-        'Express started on http://localhost:' +
-            PORT +
-            '; press Ctrl-C to terminate.'
-    );
-});
-
-
 
 
 // CREATE ROUTES
+
+// Creates a patron 
 app.post('/patrons/create', async function (req, res) {
     try {
         // Parse frontend form information
@@ -248,7 +224,8 @@ app.post('/patrons/update', async function (req, res) {
     }
 });
 
-// Update Registration 
+
+// Updates class registration information 
 app.post('/class-registration/update', async function (req, res) {
     try {
         // Parse frontend form information
@@ -303,6 +280,8 @@ app.post('/reset', async function (req, res) {
  
 
 // DELETE ROUTES
+
+// Deletes a patron 
 app.post('/patrons/delete', async function (req, res) {
     try {
         // Parse frontend form information
@@ -328,7 +307,7 @@ app.post('/patrons/delete', async function (req, res) {
     }
 });
 
-
+// Deletes a class registration 
 app.post('/class-registration/delete', async function (req, res) {
     try {
         // Parse frontend form information
@@ -351,4 +330,15 @@ app.post('/class-registration/delete', async function (req, res) {
             'An error occurred while executing the database queries.'
         );
     }
+});
+
+// ########################################
+// LISTENER
+// ########################################
+app.listen(PORT, function () {
+    console.log(
+        'Express started on http://localhost:' +
+            PORT +
+            '; press Ctrl-C to terminate.'
+    );
 });
