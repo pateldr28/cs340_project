@@ -2,6 +2,13 @@ DROP PROCEDURE IF EXISTS sp_load_aquamarinedb;
 DELIMITER //
 CREATE PROCEDURE sp_load_aquamarinedb()
 BEGIN
+/*
+Group Members: Anvesha Kumar and Dristi Patel
+Group Number: 9
+Title: Aquamarine Swim Center 
+Project Step 3
+*/
+
 
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
@@ -20,7 +27,7 @@ CREATE TABLE `Classes` (
   `instructorID` int(11) NOT NULL,
   PRIMARY KEY (`classID`,`instructorID`),
   UNIQUE KEY `classID_UNIQUE` (`classID`),
-  KEY `fk_Classes_Instructors1_idx` (`instructorID`),
+  PRIMARY KEY (`instructorID`),
   CONSTRAINT `fk_Classes_Instructors1` FOREIGN KEY (`instructorID`) REFERENCES `Instructors` (`instructorID`) ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
@@ -28,9 +35,13 @@ CREATE TABLE `Classes` (
 -- Dumping data for table `Classes`
 --
 
--- LOCK TABLES `Classes` WRITE;
-INSERT INTO `Classes` VALUES (1,'Tadpole Splash',1,105,6,1),(2,'Beginner Freestyle',2,125,8,2),(3,'Intermediate Strokes',3,145,4,2),(4,'Advanced Endurance',4,130,7,3);
--- UNLOCK TABLES;
+
+INSERT INTO `Classes` VALUES 
+  (1,'Tadpole Splash',1,105,6,(SELECT instructorID from Instructors where name = 'Alex Chen')),
+  (2,'Beginner Freestyle',2,125,8,(SELECT instructorID from Instructors where name = 'Ben Davis')),
+  (3,'Intermediate Strokes',3,145,4,(SELECT instructorID from Instructors where name = 'Ben Davis')),
+  (4,'Advanced Endurance',4,130,7,(SELECT instructorID from Instructors where name = 'Chris Lee'));
+
 
 --
 -- Table structure for table `EmergencyContacts`
@@ -45,15 +56,23 @@ CREATE TABLE `EmergencyContacts` (
   `phoneNumber` varchar(12) NOT NULL,
   PRIMARY KEY (`emergencyContactID`),
   UNIQUE KEY `contactID_UNIQUE` (`emergencyContactID`)
+  -- do we need unique key?
 );
 
 --
 -- Dumping data for table `EmergencyContacts`
 --
 
--- LOCK TABLES `EmergencyContacts` WRITE;
-INSERT INTO `EmergencyContacts` VALUES (1,'Jane Park','jane.park@email.com','541-555-2001'),(2,'Tom Green','tom.green@email.com','541-555-2002'),(3,'Linda Bell','linda.bell@email.com','541-555-2003'),(4,'David Kim','david.kim@email.com','541-555-2004'),(5,'Mark Jones','mark.jones@email.com','541-555-2005'),(6,'Sam Ngo','sam.ngo@email.com','541-555-2006'),(7,'Sofia Cruz','sofia.cruz@email.com','541-555-2007');
--- UNLOCK TABLES;
+
+INSERT INTO `EmergencyContacts` VALUES 
+  (1,'Jane Park','jane.park@email.com','541-555-2001'),
+  (2,'Tom Green','tom.green@email.com','541-555-2002'),
+  (3,'Linda Bell','linda.bell@email.com','541-555-2003'),
+  (4,'David Kim','david.kim@email.com','541-555-2004'),
+  (5,'Mark Jones','mark.jones@email.com','541-555-2005'),
+  (6,'Sam Ngo','sam.ngo@email.com','541-555-2006'),
+  (7,'Sofia Cruz','sofia.cruz@email.com','541-555-2007');
+
 
 --
 -- Table structure for table `Instructors`
@@ -68,15 +87,20 @@ CREATE TABLE `Instructors` (
   `email` varchar(255) NOT NULL,
   PRIMARY KEY (`instructorID`),
   UNIQUE KEY `instructorID_UNIQUE` (`instructorID`)
+  -- do we need unique?
 );
 
 --
 -- Dumping data for table `Instructors`
 --
 
--- LOCK TABLES `Instructors` WRITE;
-INSERT INTO `Instructors` VALUES (1,'Alex Chen','541-555-1001','alex.chen@swim.com	'),(2,'Ben Davis','541-555-1002','ben.davis@swim.com	'),(3,'Chris Lee','541-555-1003','chris.lee@swim.com	'),(4,'Dana Scott','541-555-1004','dana.scott@swim.com	');
--- UNLOCK TABLES;
+
+INSERT INTO `Instructors` VALUES 
+  (1,'Alex Chen','541-555-1001','alex.chen@swim.com'),
+  (2,'Ben Davis','541-555-1002','ben.davis@swim.com'),
+  (3,'Chris Lee','541-555-1003','chris.lee@swim.com'),
+  (4,'Dana Scott','541-555-1004','dana.scott@swim.com');
+
 
 --
 -- Table structure for table `PatronHasClasses`
@@ -94,15 +118,31 @@ CREATE TABLE `PatronHasClasses` (
   KEY `fk_Patrons_has_Classes_Patrons1_idx` (`patronID`),
   CONSTRAINT `fk_Patrons_has_Classes_Classes1` FOREIGN KEY (`classID`) REFERENCES `Classes` (`classID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_Patrons_has_Classes_Patrons1` FOREIGN KEY (`patronID`) REFERENCES `Patrons` (`patronID`) ON DELETE CASCADE ON UPDATE NO ACTION
+  -- fix foreign key constraints
 ); 
 
 --
 -- Dumping data for table `PatronHasClasses`
 --
+-- (SELECT id from client where first_name = 'Sara' and last_name = 'Smith')
 
--- LOCK TABLES `PatronHasClasses` WRITE;
-INSERT INTO `PatronHasClasses`(`patronClassesID`,`patronID`, `classID`) VALUES (1,1,1),(2,1,2),(3,1,4),(4,2,1),(5,2,3),(6,3,1),(7,3,2),(8,4,1),(9,4,3),(10,5,2),(11,5,3),(12,6,2),(13,6,4),(14,7,3),(15,7,4),(16,8,4);
--- UNLOCK TABLES;
+INSERT INTO `PatronHasClasses`(`patronClassesID`,`patronID`, `classID`) VALUES (1,(SELECT patronID from Patrons where name = 'Eliza Park'),(SELECT classID from Classes where name = 'Tadpole Splash')),
+(2,(SELECT patronID from Patrons where name = 'Eliza Park'),(SELECT classID from Classes where name = 'Beginner Freestyle')),
+(3,(SELECT patronID from Patrons where name = 'Eliza Park'),(SELECT classID from Classes where name = 'Advanced Endurance')),
+(4,(SELECT patronID from Patrons where name = 'Frank Green'),(SELECT classID from Classes where name = 'Tadpole Splash')),
+(5,(SELECT patronID from Patrons where name = 'Frank Green'),(SELECT classID from Classes where name = 'Intermediate Strokes')),
+(6,(SELECT patronID from Patrons where name = 'Gia Harris'),(SELECT classID from Classes where name = 'Tadpole Splash')),
+(7,(SELECT patronID from Patrons where name = 'Gia Harris'),(SELECT classID from Classes where name = 'Beginner Freestyle')),
+(8,(SELECT patronID from Patrons where name = 'Henry Kim'),(SELECT classID from Classes where name = 'Tadpole Splash')),
+(9,(SELECT patronID from Patrons where name = 'Henry Kim'),(SELECT classID from Classes where name = 'Intermediate Strokes')),
+(10,(SELECT patronID from Patrons where name = 'Ira Jones'),(SELECT classID from Classes where name = 'Beginner Freestyle')),
+(11,(SELECT patronID from Patrons where name = 'Ira Jones'),(SELECT classID from Classes where name = 'Intermediate Strokes')),
+(12,(SELECT patronID from Patrons where name = 'Jasmine Lim'),(SELECT classID from Classes where name = 'Beginner Freestyle')),
+(13,(SELECT patronID from Patrons where name = 'Jasmine Lim'),(SELECT classID from Classes where name = 'Advanced Endurance')),
+(14,(SELECT patronID from Patrons where name = 'Kelly Ngo'),(SELECT classID from Classes where name = 'Intermediate Strokes')),
+(15,(SELECT patronID from Patrons where name = 'Kelly Ngo'),(SELECT classID from Classes where name = 'Advanced Endurance')),
+(16,(SELECT patronID from Patrons where name = 'Leo Cruz'),(SELECT classID from Classes where name = 'Advanced Endurance'));
+
 
 --
 -- Table structure for table `Patrons`
@@ -120,15 +160,24 @@ CREATE TABLE `Patrons` (
   UNIQUE KEY `patronID_UNIQUE` (`patronID`),
   KEY `fk_Patrons_EmergencyContacts1_idx` (`emergencyContactID`),
   CONSTRAINT `fk_Patrons_EmergencyContacts1` FOREIGN KEY (`emergencyContactID`) REFERENCES `EmergencyContacts` (`emergencyContactID`) ON DELETE CASCADE ON UPDATE NO ACTION
+  -- fix foreign key constraints
 ); 
 
 --
 -- Dumping data for table `Patrons`
 --
+-- use select subqueries
 
--- LOCK TABLES `Patrons` WRITE;
-INSERT INTO `Patrons` VALUES (1,'Eliza Park',10,'Female',1),(2,'Frank Green',8,'Male',2),(3,'Gia Harris',9,'Female',3),(4,'Henry Kim',12,'Male',4),(5,'Ira Jones',15,'Male',5),(6,'Jasmine Lim',11,'Female',3),(7,'Kelly Ngo',14,'Female',6),(8,'Leo Cruz',16,'Male',7);
--- UNLOCK TABLES;
+INSERT INTO `Patrons` VALUES 
+  (1,'Eliza Park',10,'Female',(SELECT contactID from EmergencyContacts where name = 'Jane Park')),
+  (2,'Frank Green',8,'Male',(SELECT contactID from EmergencyContacts where name = 'Tom Green')),
+  (3,'Gia Harris',9,'Female',(SELECT contactID from EmergencyContacts where name = 'Linda Bell')),
+  (4,'Henry Kim',12,'Male',(SELECT contactID from EmergencyContacts where name = 'David Kim')),
+  (5,'Ira Jones',15,'Male',(SELECT contactID from EmergencyContacts where name = 'Mark Jones')),
+  (6,'Jasmine Lim',11,'Female',(SELECT contactID from EmergencyContacts where name = 'Linda Bell')),
+  (7,'Kelly Ngo',14,'Female',(SELECT contactID from EmergencyContacts where name = 'Sam Ngo')),
+  (8,'Leo Cruz',16,'Male',(SELECT contactID from EmergencyContacts where name = 'Sofia Cruz'));
+
 
 --
 -- Table structure for table `Reservations`
@@ -153,9 +202,13 @@ CREATE TABLE `Reservations` (
 -- Dumping data for table `Reservations`
 --
 
--- LOCK TABLES `Reservations` WRITE;
-INSERT INTO `Reservations` VALUES (1,2.50,'2025-11-01 18:00:00',1,350,'Birthday Party '),(2,0.75,'2025-11-03 10:00:00',4,225,'Friend hangout'),(3,4.00,'2025-11-05 14:30:00',7,399,'Pool party'),(4,1.5,'2025-11-08 19:00:00',5,280,'Swim competition ');
--- UNLOCK TABLES;
+
+INSERT INTO `Reservations` VALUES 
+  (1,2.50,'2025-11-01 18:00:00',(SELECT patronID from Patrons where name = 'Eliza Park'),350,'Birthday Party'),
+  (2,0.75,'2025-11-03 10:00:00',(SELECT patronID from Patrons where name = 'Henry Kim'),225,'Friend hangout'),
+  (3,4.00,'2025-11-05 14:30:00',(SELECT patronID from Patrons where name = 'Kelly Ngo'),399,'Pool party'),
+  (4,1.5,'2025-11-08 19:00:00',(SELECT patronID from Patrons where name = 'Ira Jones'),280,'Swim competition');
+
 
 
 SET FOREIGN_KEY_CHECKS=1;
