@@ -56,7 +56,7 @@ CREATE TABLE `EmergencyContacts` (
   `phoneNumber` varchar(12) NOT NULL,
   PRIMARY KEY (`emergencyContactID`),
   UNIQUE KEY `contactID_UNIQUE` (`emergencyContactID`)
-  -- do we need unique key?
+  
 );
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `Instructors` (
   `email` varchar(255) NOT NULL,
   PRIMARY KEY (`instructorID`),
   UNIQUE KEY `instructorID_UNIQUE` (`instructorID`)
-  -- do we need unique?
+  
 );
 
 --
@@ -118,13 +118,13 @@ CREATE TABLE `PatronHasClasses` (
   KEY `fk_Patrons_has_Classes_Patrons1_idx` (`patronID`),
   CONSTRAINT `fk_Patrons_has_Classes_Classes1` FOREIGN KEY (`classID`) REFERENCES `Classes` (`classID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_Patrons_has_Classes_Patrons1` FOREIGN KEY (`patronID`) REFERENCES `Patrons` (`patronID`) ON DELETE CASCADE ON UPDATE NO ACTION
-  -- fix foreign key constraints
+  
 ); 
 
 --
 -- Dumping data for table `PatronHasClasses`
 --
--- (SELECT id from client where first_name = 'Sara' and last_name = 'Smith')
+
 
 INSERT INTO `PatronHasClasses`(`patronClassesID`,`patronID`, `classID`) VALUES (1,(SELECT patronID from Patrons where name = 'Eliza Park'),(SELECT classID from Classes where name = 'Tadpole Splash')),
 (2,(SELECT patronID from Patrons where name = 'Eliza Park'),(SELECT classID from Classes where name = 'Beginner Freestyle')),
@@ -160,7 +160,7 @@ CREATE TABLE `Patrons` (
   UNIQUE KEY `patronID_UNIQUE` (`patronID`),
   KEY `fk_Patrons_EmergencyContacts1_idx` (`emergencyContactID`),
   CONSTRAINT `fk_Patrons_EmergencyContacts1` FOREIGN KEY (`emergencyContactID`) REFERENCES `EmergencyContacts` (`emergencyContactID`) ON DELETE CASCADE ON UPDATE NO ACTION
-  -- fix foreign key constraints
+  
 ); 
 
 --
