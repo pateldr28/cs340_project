@@ -12,6 +12,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 {{! READ table }}
 <table>
     <thead>
+        {{!-- Display headers/attribute names --}}
         <tr>
             {{#each classinfo.[0]}}
             <th>
@@ -21,6 +22,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
             <th></th>
         </tr>
     </thead>
+        {{! For each row, print the registration id, patron id, patron name, class id, and class name}}
+        
         <tbody>
         {{#each classinfo}}
         <tr>
@@ -45,6 +48,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 </table>
 
 {{! UPDATE form }}
+{{!-- Displays the forms to update the patron info and fills with data for registrationID, patronID, and classID --}}
 <h2>Update Registration Info</h2>
 <form class='cuForm' id='update_registration_id' method="POST" action="/class-registration/update">
     <label for='update_registration_id'>Registration ID Update: </label>

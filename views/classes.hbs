@@ -12,6 +12,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 {{! READ table }}
 <table>
     <thead>
+        {{!-- Display headers/attribute names --}}
         <tr>
             {{#each classes.[0]}}
             <th>
@@ -22,6 +23,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
     </thead>
 
     <tbody>
+        {{! For each row, print the id, name, level, price, week duration, and instructor name}}
+        
         {{#each classes}}
         <tr>
             <td>{{this.classID}}</td>

@@ -12,6 +12,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 {{! READ table }}
 <table>
     <thead>
+        {{! For the table header row, we print the DB attribute names }}
+
         <tr>
             {{#each reservations.[0]}}
             <th>
@@ -22,6 +24,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
     </thead>
 
     <tbody>
+        {{! For each row, print the id, patron name, date, duration, price, and comments }}
+
         {{#each reservations}}
         <tr>
             <td>{{this.reservationID}}</td>
