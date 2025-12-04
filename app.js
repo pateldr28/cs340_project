@@ -234,7 +234,7 @@ app.post('/class-registration/update', async function (req, res) {
         // Create and execute our query
         // Using parameterized queries (Prevents SQL injection attacks)
         const query1 = `CALL sp_UpdateClassRegistration(?, ?, ?);`;
-        // const query2 = `SELECT name FROM Patrons WHERE patronID = ?;`;
+        const query2 = `SELECT name FROM Patrons WHERE patronID = ?;`;
         await db.query(query1, [
             data.update_registration_id,
             data.update_patron_id,
