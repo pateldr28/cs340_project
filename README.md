@@ -41,3 +41,5 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
 All code in aquamarine_ddl.sql is original
 
 All code in aquamarine_dml.sql is original. 
+
+all images under Creative Commons License
