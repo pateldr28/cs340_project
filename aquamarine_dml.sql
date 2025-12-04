@@ -1,6 +1,7 @@
 -- Select queries for all tables
 
--- Displays the patronID, name, age, gender, and emergency contact name of patrons from the Patrons Table
+-- Displays the patronID, name, age, gender, and emergency contact name of
+-- patrons from the Patrons table
 SELECT Patrons.patronID, Patrons.name, Patrons.age, Patrons.gender, EmergencyContacts.name
 FROM Patrons
 JOIN EmergencyContacts ON Patrons.emergencyContactID = EmergencyContacts.emergencyContactID;
@@ -10,7 +11,8 @@ SELECT Classes.classID, Classes.name,Classes.level, Classes.price, Classes.weekD
 FROM Classes
 JOIN Instructors ON Instructors.instructorID = Classes.instructorID;
 
--- Displays the emergencyContactID, name, email, and phone number of the EmergencyContacts Table
+-- Displays the emergencyContactID, name, email, and phone number of the
+-- EmergencyContacts table
 SELECT EmergencyContacts.emergencyContactID, EmergencyContacts.name,EmergencyContacts.email, EmergencyContacts.phoneNumber
 FROM EmergencyContacts;
 
@@ -20,12 +22,15 @@ SELECT Reservations.reservationID, Reservations.price,Reservations.duration, Res
 FROM Reservations
 JOIN Patrons ON Reservations.patronID = Patrons.patronID;
 
--- Displays the patronID, name, classID, and the class name from the PatronHasClasses Table
+-- Displays the patronID, name, classID, and the class name from the
+-- PatronHasClasses table
 SELECT PatronHasClasses.patronID, Patrons.name,PatronHasClasses.classID, Classes.name
 FROM PatronHasClasses
 JOIN Patrons ON Patrons.patronID = PatronHasClasses.patronID
 JOIN Classes ON Classes.classID = PatronHasClasses.classID;
 
+-- Displays the instructorID, name, email, and phone number from the
+-- Instructors table
 SELECT Instructors.instructorID, Instructors.name,Instructors.email, Instructors.phoneNumber
 FROM Instructors;
 

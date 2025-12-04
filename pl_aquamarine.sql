@@ -6,6 +6,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-imp
 */
 -- #############################
 -- CREATE patron
+-- Creates a patron given input for a name, age, gender, and emergency contact
+-- ID. Returns the patron ID of the newly created patron.
 -- #############################
 DROP PROCEDURE IF EXISTS sp_CreatePatron;
 
@@ -27,6 +29,9 @@ DELIMITER ;
 
 -- #############################
 -- UPDATE patron
+-- Updates a patron given the patron ID of the patron whose info needs to be
+-- changed, the age and the emergency contact ID info that the patron needs to
+-- be changed to.
 -- #############################
 DROP PROCEDURE IF EXISTS sp_UpdatePatron;
 
@@ -43,6 +48,7 @@ DELIMITER ;
 
 -- #############################
 -- DELETE patron
+-- Deletes the patron given the patron ID as input. 
 -- #############################
 DROP PROCEDURE IF EXISTS sp_DeletePatron;
 
@@ -72,6 +78,8 @@ DELIMITER ;
 
 -- #############################
 -- UPDATE class registration 
+-- Updates the class registration information given the registrationID, patron
+-- ID, and class ID as input. 
 -- #############################
 DROP PROCEDURE IF EXISTS sp_UpdateClassRegistration;
 
@@ -90,6 +98,7 @@ DELIMITER ;
 
 -- #############################
 -- DELETE registration
+-- Delets the registration information given the registration ID given as input. 
 -- #############################
 DROP PROCEDURE IF EXISTS sp_DeleteRegistration;
 
