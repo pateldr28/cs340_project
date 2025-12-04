@@ -207,11 +207,11 @@ app.post('/patrons/update', async function (req, res) {
             data.update_patron_age,
             data.update_patron_emergencycontact,
         ]);
-        // const [rows] = await db.query(query2, [data.update_patron_id]);
+        const [rows] = await db.query(query2, [data.update_patron_id]);
 
-        // console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
-        //     `Name: ${rows.name}`
-        // );
+        console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
+            `Name: ${rows.name}`
+        );
 
         // Redirect the user to the updated webpage data
         res.redirect('/patrons');
