@@ -186,6 +186,37 @@ app.post('/patrons/create', async function (req, res) {
     }
 });
 
+// Creates a class registration 
+app.post('/class-registration/create', async function (req, res) {
+    try {
+        // Parse frontend form information
+        const data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_CreateClassRegistration(?, ?, ?);`;
+        const query2 = `SELECT name FROM Patrons WHERE patronID = ?;`;
+        await db.query(query1, [
+            data.create_patron_id,
+            data.create_class_id,
+        ]);
+        const [rows] = await db.query(query2, [data.update_patron_id]);
+
+        console.log(`CREATE Patrons. ID: ${data.creaate_patron_id} ` +
+             `Name: ${rows.name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/class-registration');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
 // UPDATE ROUTES
 
 // Update Patron
@@ -331,6 +362,8 @@ app.post('/class-registration/delete', async function (req, res) {
         );
     }
 });
+
+
 
 // ########################################
 // LISTENER
