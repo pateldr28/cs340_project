@@ -47,6 +47,38 @@ Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web
     </tbody>
 </table>
 
+{{! CREATE form }}
+{{!-- Displays the forms to create a registration by choosing a patron ID and class ID --}}
+
+<h2>Create Registration Info</h2>
+<form class='cuForm' id='create_registration_id' method="POST" action="/class-registration/create">
+
+    <label for='create_patron_id'>Patron Info: </label>
+    <select name='create_patron_id' id='create_patron_id' required>
+        <option value='' disabled selected>Select a Patron</option>
+        {{#each patrons}}
+        <option value='{{this.patronID}}' required>
+            {{this.patronID}}
+            -
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='create_class_id'>Class Info: </label>
+    <select name='create_class_id' id='create_class_id' required>
+        <option value='' disabled selected>Select a Class</option>
+        {{#each classes}}
+        <option value='{{this.classID}}' required>
+            {{this.classID}}
+            -
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+   
+    <input type='submit' />
+
 {{! UPDATE form }}
 {{!-- Displays the forms to update the patron info and fills with data for registrationID, patronID, and classID --}}
 <h2>Update Registration Info</h2>
