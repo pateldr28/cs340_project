@@ -125,3 +125,24 @@ BEGIN
 
 END //
 DELIMITER ;
+
+-- #############################
+-- CREATE registration
+-- Creates a registration given input for a patron ID and class ID
+-- ID. Returns the registration ID of the newly created registration.
+-- #############################
+DROP PROCEDURE IF EXISTS sp_CreateRegistration;
+
+DELIMITER //
+CREATE PROCEDURE sp_CreateRegistration(
+    IN patronID INT, 
+    IN classID INT, 
+    OUT registrationID INT)
+BEGIN
+    INSERT INTO PatronHasClasses (patronID, classID)
+    VALUES (patronID, classID);
+
+    SELECT LAST_INSERT_ID() into registrationID;
+    SELECT LAST_INSERT_ID() AS 'new_id';
+END //
+DELIMITER ;
