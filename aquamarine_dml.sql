@@ -29,6 +29,10 @@ FROM PatronHasClasses
 JOIN Patrons ON Patrons.patronID = PatronHasClasses.patronID
 JOIN Classes ON Classes.classID = PatronHasClasses.classID;
 
+-- Insert query for PatronHasClasses, where @ represents a user input variable from front-end (Creates patronhasclasses entry)
+INSERT INTO PatronHasClasses (patronID, classID)
+VALUES (@PatronIDInput, @ClassIDInput);
+
 -- Displays the instructorID, name, email, and phone number from the
 -- Instructors table
 SELECT Instructors.instructorID, Instructors.name,Instructors.email, Instructors.phoneNumber
