@@ -52,8 +52,14 @@ nav {
 
 a {
     margin-left: 16px;
+    text-decoration: none;
 }
 
+a:hover{
+    color: darkblue;
+    font-weight: bold;
+
+}
 .pageDescription {
     margin-left: 32px;
 }
@@ -79,4 +85,10 @@ button:hover {
 
 .resetbutton{
     margin-left: auto;
+}
+
+img{
+    width: 400px;
+    height: 400px;
+    margin-left: 35%;
 }
