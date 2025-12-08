@@ -10,12 +10,12 @@ Date: 11/02/2025
 Copied from: CS340 start app code 
 Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131
 
-Reset route in app.js:263 is adapted from GitHub Copilot 
-// Citation for the following function: app.js:263
-// Date: 11/14/2025
-// Adapted from Github Copilot:
-// Prompt used: "how do we implement a reset sp_pl in app.js and html, assuming our procedure is already written", with a follow up prompt of "how do you generalize the app.js so its not specific to patrons page and resets the whole database and all the other tables on different pages"
-// Source URL: https://github.com/copilot/c/1dacc04b-b3b3-41d2-891b-b959387c78dd 
+Reset route in app.js:263 and reset buttonmain.hbs:33 is adapted from GitHub Copilot 
+ Citation for the following function: app.js:263, main.hbs:33
+ Date: 11/14/2025
+ Adapted from Github Copilot:
+ Prompt used: "how do we implement a reset sp_pl in app.js and html, assuming our procedure is already written", with a follow up prompt of "how do you generalize the app.js so its not specific to patrons page and resets the whole database and all the other tables on different pages"
+ Source URL: https://github.com/copilot/c/1dacc04b-b3b3-41d2-891b-b959387c78dd 
 
 All code in pl_aquamarine.sql based on CS340 Implementing CUD Operations starter code inluding original code from aquamarine_dml.sql
 Citation for the following PL/SQL: aquamarine_pl.sql
