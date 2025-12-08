@@ -3,6 +3,7 @@ Citation for the following PL/SQL:
 Date: 11/14/2025
 Copied from: CS340 Implementing CUD operations in your app code
 Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=25645149
+All code on this page is adapted from this source
 */
 -- #############################
 -- CREATE patron

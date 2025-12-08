@@ -3,6 +3,7 @@ Citation for the following JS:
 Date: 11/02/2025
 Copied from: CS340 start app code 
 Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131
+All code on this file is from this source
 */
 
 // ########################################
@@ -47,13 +48,15 @@ app.get('/', async function (req, res) {
 //Route to patrons table
 app.get('/patrons', async function (req, res) {
     try {
+        //Display Patrons table
         const query1 = "SELECT Patrons.patronID, Patrons.name,Patrons.age, Patrons.gender, \
                         EmergencyContacts.name AS 'emergencyContactName' FROM Patrons JOIN EmergencyContacts ON \
                         Patrons.emergencyContactID = EmergencyContacts.emergencyContactID;";
+        // Populate info for foreign key in the patrons table
         const query2 = "SELECT * FROM EmergencyContacts;";
         const [patrons] = await db.query(query1);
         const [contacts] = await db.query(query2);
-        res.render('patrons', {patrons: patrons, contacts: contacts}); // Render the reservations.hbs file
+        res.render('patrons', {patrons: patrons, contacts: contacts}); 
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -101,7 +104,7 @@ app.get('/emergency-contacts', async function (req, res) {
         const query1 = "SELECT EmergencyContacts.emergencyContactID, EmergencyContacts.name,EmergencyContacts.email, EmergencyContacts.phoneNumber\
         FROM EmergencyContacts;";
         const [contacts] = await db.query(query1);
-        res.render('emergency-contacts', {contacts: contacts}); // Render the reservations.hbs file
+        res.render('emergency-contacts', {contacts: contacts}); 
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -116,7 +119,7 @@ app.get('/instructors', async function (req, res) {
         const query1 = "SELECT Instructors.instructorID, Instructors.name,Instructors.email, Instructors.phoneNumber\
         FROM Instructors;";
         const [instructors] = await db.query(query1);
-        res.render('instructors', {instructors:instructors}); // Render the reservations.hbs file
+        res.render('instructors', {instructors:instructors}); 
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -131,12 +134,13 @@ app.get('/class-registration', async function (req, res) {
         const query1 = "SELECT PatronHasClasses.patronClassesID AS registrationID, PatronHasClasses.patronID, Patrons.name AS patronName, PatronHasClasses.classID, Classes.name AS className\
                 FROM PatronHasClasses JOIN Patrons ON Patrons.patronID = PatronHasClasses.patronID\
                 JOIN Classes ON Classes.classID = PatronHasClasses.classID ORDER BY registrationID ASC;";
+        // Populate the foreign key info for the PatronHasClasses table
         const query2 = "SELECT Classes.classID, Classes.name FROM Classes;";
         const query3 = "SELECT Patrons.patronID, Patrons.name FROM Patrons;";
         const [classinfo] = await db.query(query1);
         const [classes] = await  db.query(query2);
         const[patrons] =  await db.query(query3);
-        res.render('class-registration', {classinfo: classinfo, classes: classes, patrons: patrons}); // Render the reservations.hbs file
+        res.render('class-registration', {classinfo: classinfo, classes: classes, patrons: patrons}); 
     } catch (error) {
         console.error('Error rendering page:', error);
         // Send a generic error message to the browser
@@ -153,7 +157,7 @@ app.post('/patrons/create', async function (req, res) {
         // Parse frontend form information
         let data = req.body;
 
-        // Cleanse data - If the homeworld or age aren't numbers, make them NULL.
+        // Cleanse data for patron age and emergency contact input
         if (isNaN(parseInt(data.create_patron_age)))
             data.create_patron_age = null;
         if (isNaN(parseInt(data.create_patron_emergencycontact)))
@@ -171,7 +175,7 @@ app.post('/patrons/create', async function (req, res) {
             data.create_patron_emergencycontact,
         ]);
 
-        console.log(`CREATE Patrons. ID: ${rows.new_id}  +
+        console.log(`CREATE Patron. ID: ${rows.new_id}  +
             Name: ${data.create_patron_name}`
         );
 
@@ -194,15 +198,15 @@ app.post('/class-registration/create', async function (req, res) {
 
         // Create and execute our query
         // Using parameterized queries (Prevents SQL injection attacks)
-        const query1 = `CALL sp_CreateClassRegistration(?, ?, ?);`;
+        const query1 = `CALL sp_CreateRegistration(?, ?, @new_id);`;
         const query2 = `SELECT name FROM Patrons WHERE patronID = ?;`;
         await db.query(query1, [
             data.create_patron_id,
             data.create_class_id,
         ]);
-        const [rows] = await db.query(query2, [data.update_patron_id]);
+        const [rows] = await db.query(query2, [data.create_patron_id]);
 
-        console.log(`CREATE Patrons. ID: ${data.creaate_patron_id} ` +
+        console.log(`CREATE Registration. ID: ${data.create_patron_id} ` +
              `Name: ${rows.name}`
         );
 
@@ -225,7 +229,7 @@ app.post('/patrons/update', async function (req, res) {
         // Parse frontend form information
         const data = req.body;
 
-        // Cleanse data - If the homeworld or age aren't numbers, make them NULL.
+        // Cleanse data for patron age input
         if (isNaN(parseInt(data.update_patron_age)))
             data.update_patron_age = null;
 
@@ -273,7 +277,7 @@ app.post('/class-registration/update', async function (req, res) {
         ]);
         const [rows] = await db.query(query2, [data.update_patron_id]);
 
-        console.log(`UPDATE Patrons. ID: ${data.update_patron_id} ` +
+        console.log(`UPDATE Registrations. ID: ${data.update_patron_id} ` +
              `Name: ${rows.name}`
         );
 
@@ -349,8 +353,7 @@ app.post('/class-registration/delete', async function (req, res) {
         const query1 = `CALL sp_DeleteRegistration(?);`;
         await db.query(query1, [data.delete_registration_id]);
 
-        console.log(`DELETE registration. ID: ${data.delete_registration_id} `
-        );
+        console.log(`DELETE registration. ID: ${data.delete_registration_id} `);
 
         // Redirect the user to the updated webpage data
         res.redirect('/class-registration');
